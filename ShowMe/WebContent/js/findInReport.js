@@ -37,7 +37,7 @@ function findInPhrases(phrases) {
 	console.log("Market[C] " + gMarket);
 	console.log("vehicleLine[15003] " + gVehicleLine);
 
-	var message = "Am still short of ";
+	var message = "I'm still short of ";
 
 	if (gReportType == "") {
 		message += "Report type, ";
@@ -57,8 +57,9 @@ function findInPhrases(phrases) {
 
 	message += ".  Could you please help me?";
 
-	if (message == "Am still short of .  Could you please help me?") {
-		document.getElementById("body").innerHTML = "Retriving.../n";
+	if (message == "I'm still short of .  Could you please help me?") {
+		var utterance = new SpeechSynthesisUtterance("Retrieving Weekly Feature Allocation Report for Focus 2016 Canada Market");
+		window.speechSynthesis.speak(utterance);
 		submitForm(gVehicleLine, gModelYear, gMarket, gReportType);
 	} else {
 		document.getElementById("body").innerHTML = message;
