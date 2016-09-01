@@ -26,6 +26,14 @@ function identifyPhrases(phrase, phrases, modelArr) {
 	}
 }
 
+function getDescription(arr, code){
+	for(index = 0; index < arr.length; index++){
+		if(arr[index][0] == code)
+			return arr[index][1];
+	}
+	return "";
+}
+
 function findInPhrases(phrases) {
 	gReportType = identifyPhrases(gReportType, phrases, reportTypeArr);
 	gModelYear = identifyPhrases(gModelYear, phrases, modelYearArr);
@@ -38,21 +46,30 @@ function findInPhrases(phrases) {
 	console.log("vehicleLine[15003] " + gVehicleLine);
 
 	var message = "I'm still short of ";
+	var speakMessage = "Retrieving report for ";
 
 	if (gReportType == "") {
 		message += "Report type, ";
+	}else{
+		speakMessage += getDescription(reportTypeArr, gReportType) + " ";
 	}
 
 	if (gModelYear == "") {
 		message += "Model Year, ";
+	}else{
+		speakMessage += getDescription(modelYearArr, gModelYear) + " ";
 	}
 
 	if (gMarket == "") {
 		message += "Market, ";
+	}else{
+		speakMessage += getDescription(marketArr, gMarket) + " " ;
 	}
 
 	if (gVehicleLine == "") {
 		message += "VehicleLine, ";
+	}else{
+		speakMessage += getDescription(vehicleLineArr, gVehicleLine) + " ";
 	}
 
 	message += ".  Could you please help me?";
@@ -62,7 +79,11 @@ function findInPhrases(phrases) {
 		window.speechSynthesis.speak(utterance);
 		submitForm(gVehicleLine, gModelYear, gMarket, gReportType);
 	} else {
-		document.getElementById("body").innerHTML = message;
+		document.getElementById("body").innerHTML = speakMessage;
+		var utterance = new SpeechSynthesisUtterance(speakMessage);
+		window.speechSynthesis.speak(utterance);
+		
+		document.getElementById("body").innerHTML = speakMessage + "<br>" + message;
 		var utterance = new SpeechSynthesisUtterance(message);
 		window.speechSynthesis.speak(utterance);
 	}
